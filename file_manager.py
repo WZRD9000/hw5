@@ -53,6 +53,7 @@ while True:
                 dirs = isdir()
                 with open('listdir.txt', 'w') as f:
                     f.write(f'files: {files}\ndirs: {dirs}')
+                    break
             elif save_dir == 'нет':
                 break
             else:
