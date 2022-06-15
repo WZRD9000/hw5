@@ -1,4 +1,5 @@
-
+import os
+import random
 
 def play_victory():
 
@@ -43,7 +44,6 @@ def play_victory():
         correct_count = 0
         incorrect_count= 0
 
-        import random
         for i in range(rounds):
             name, date = random.choice(list(actors.items()))
             answer = input(f'Дата рождения {name}')
@@ -52,7 +52,7 @@ def play_victory():
                 correct_count += 1
             else:
                 day, month, year = date.split('.')
-                print(f'Неверно, {name} родился {days[day], months[month], year} года')
+                print(f'Неверно, дата рождения {name} - {days[day], months[month], year} года')
                 incorrect_count += 1
 
         print('Правильных ответов: ', correct_count)
@@ -66,38 +66,94 @@ def play_victory():
 
         if play_again == 'да':
             victory()
-        else:
+        elif play_again == 'нет':
             break
+        else:
+            print('Введите да или нет')
 
 
 def bank_account():
 
-    ballance = 0
+    balance = 0
     purchase_history = []
 
+    purchases_list = 'purchases_list.txt'
+    balance_save = 'balance_save.txt'
+
+    if os.path.exists(purchases_list):
+        with open(purchases_list, 'r') as f:
+            for i in f:
+                purchase_history.append(i.replace('\n', ' '))
+
+    if os.path.exists(balance_save):
+        with open(balance_save, 'r') as f:
+            for i in f:
+                balance += int(i)
 
     while True:
+        print('='*20)
+        print(f'На Вашем счету {balance} золотых')
+        print('='*20)
         print('1. пополнение счета')
         print('2. покупка')
         print('3. история покупок')
         print('4. выход')
+        print('=' * 20)
 
-        choice = input('Выберите пункт меню')
+        choice = input('Выберите пункт меню: ')
         if choice == '1':
             refill = int(input('Введите сумму, которую хотите внести: '))
-            ballance += refill
-            print(f'На Вашем счету {ballance}')
+            balance += refill
+            print(f'На Вашем счету {balance} золотых')
         elif choice == '2':
             purchase_cost = int(input('Введите цену покупки: '))
-            if purchase_cost > ballance:
+            if purchase_cost > balance:
                 print('Недостаточно средств')
             else:
                 purchase_name = input('Введите наименование покупки: ')
-                ballance -= purchase_cost
+                balance -= purchase_cost
                 purchase_history.append((purchase_name, purchase_cost))
         elif choice == '3':
             print(purchase_history)
         elif choice == '4':
+            with open(purchases_list, 'w') as f:
+                for i in purchase_history:
+                    f.write(f'{i}\n')
+            with open(balance_save, 'w') as f:
+                f.write(str(balance))
             break
         else:
             print('Неверный пункт меню')
+
+
+def isdir():
+        dirs = [folder for folder in os.listdir() if os.path.isdir(folder)]
+        return dirs
+
+def isfile():
+        files = [file for file in os.listdir() if os.path.isfile(file)]
+        return files
+
+
+def add_sep(f):
+    def inner(*args, **kwargs):
+        print('~' * 20)
+        result = f(*args, **kwargs)
+        print('~' * 20)
+        return result
+    return inner
+
+@add_sep
+def main_menu_list():
+    print('1 - создать папку')
+    print('2 - удалить (файл/папку)')
+    print('3 - копировать (файл/папку)')
+    print('4 - просмотр содержимого рабочей директории;')
+    print('5 - посмотреть только папки')
+    print('6 - посмотреть только файлы')
+    print('7 - просмотр информации об операционной системе')
+    print('8 - создатель программы')
+    print('9 - играть в викторину')
+    print('10 - мой банковский счет')
+    print('11 - выход')
+
