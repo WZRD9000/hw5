@@ -127,17 +127,33 @@ def bank_account():
 
 
 def isdir():
-        dirs = []
-        for i in os.listdir():
-            if os.path.isdir(i):
-                dirs.append(i)
+        dirs = [folder for folder in os.listdir() if os.path.isdir(folder)]
         return dirs
 
-
 def isfile():
-        files = []
-        for i in os.listdir():
-            if os.path.isfile(i):
-                files.append(i)
+        files = [file for file in os.listdir() if os.path.isfile(file)]
         return files
+
+
+def add_sep(f):
+    def inner(*args, **kwargs):
+        print('~' * 20)
+        result = f(*args, **kwargs)
+        print('~' * 20)
+        return result
+    return inner
+
+@add_sep
+def main_menu_list():
+    print('1 - создать папку')
+    print('2 - удалить (файл/папку)')
+    print('3 - копировать (файл/папку)')
+    print('4 - просмотр содержимого рабочей директории;')
+    print('5 - посмотреть только папки')
+    print('6 - посмотреть только файлы')
+    print('7 - просмотр информации об операционной системе')
+    print('8 - создатель программы')
+    print('9 - играть в викторину')
+    print('10 - мой банковский счет')
+    print('11 - выход')
 
