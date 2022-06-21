@@ -1,10 +1,14 @@
 import os
 import shutil
+from menu_functions import play_victory
+from menu_functions import bank_account
 import sys
+from menu_functions import isdir
+from menu_functions import isfile
 
 while True:
 
-    print('Выберите пункт меню: ')
+    print('='*10)
     print('1 - создать папку')
     print('2 - удалить (файл/папку)')
     print('3 - копировать (файл/папку)')
@@ -16,8 +20,9 @@ while True:
     print('9 - играть в викторину')
     print('10 - мой банковский счет')
     print('11 - выход')
+    print('=' * 10)
 
-    menu_choice = input('Выберите пункт меню')
+    menu_choice = input('Выберите пункт меню: ')
     if menu_choice == '1':
         dir_name = input('введите название папки: ')
         if not os.path.exists(dir_name):
@@ -41,19 +46,25 @@ while True:
 
     elif menu_choice == '4':
         print(os.listdir())
+        while True:
+            save_dir = input('сохранить содержимое рабочей директории в файл? [да/нет] ')
+            if save_dir == 'да':
+                files = isfile()
+                dirs = isdir()
+                with open('listdir.txt', 'w') as f:
+                    f.write(f'files: {files}\ndirs: {dirs}')
+                    break
+            elif save_dir == 'нет':
+                break
+            else:
+                print('[да / нет]')
 
     elif menu_choice == '5':
-        directories = []
-        for i in os.listdir():
-            if os.path.isdir(i):
-                directories.append(i)
-        print(directories)
+        dirs = isdir()
+        print(dirs)
 
     elif menu_choice == '6':
-        files = []
-        for i in os.listdir():
-            if os.path.isfile(i):
-                files.append(i)
+        files = isfile()
         print(files)
 
     elif menu_choice == '7':
@@ -64,11 +75,9 @@ while True:
         print('Михаил, 32 годика')
 
     elif menu_choice == '9':
-        from menu_functions import play_victory
         play_victory()
 
     elif menu_choice == '10':
-        from menu_functions import bank_account
         bank_account()
 
     elif menu_choice == '11':
