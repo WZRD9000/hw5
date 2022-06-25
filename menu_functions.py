@@ -1,9 +1,6 @@
+import random
 
-
-def play_victory():
-
-    def victory():
-        actors = {'Харрисон Форд': '13.06.1942',
+actors = {'Харрисон Форд': '13.06.1942',
                   'Рутгер Хауэр': '23.01.1944',
                   'Шон Янг': '20.11.1959',
                   'Дэрил Ханна': '03.12.1960',
@@ -13,37 +10,40 @@ def play_victory():
                   'Джаред Лето': '26.12.1971',
                   'Дейв Батиста': '18.01.1969',
                   'Сильвия Хукс': '01.06.1983'
-                  }
-        months = {'01': 'января',
-                  '02': 'февраля',
-                  '03': 'марта',
-                  '04': 'апреля',
-                  '06': 'июня',
-                  '11': 'ноября',
-                  '12': 'декабря'
-                  }
+           }
 
-        days = {'01': 'первое',
-                '03': 'третье',
-                '12': 'двенадцатое',
-                '13': 'тринадцатое',
-                '18': 'восемнадцатое',
-                '20': 'двадцатое',
-                '23': 'двадцатьтретье',
-                '26': 'двадцатьшестое',
-                '30': 'тридцатое'
-                }
+months = {'01': 'января',
+          '02': 'февраля',
+          '03': 'марта',
+          '04': 'апреля',
+          '06': 'июня',
+          '11': 'ноября',
+          '12': 'декабря'
+          }
 
-        rounds = int(input('Количество вопросов: '))
-        if rounds < 5:
-            rounds = int(input('Количество вопросов [5-10]: '))
-        elif rounds > 10:
-            rounds = int(input('Количество вопросов [5-10]: '))
+days = {'01': 'первое',
+        '03': 'третье',
+        '12': 'двенадцатое',
+        '13': 'тринадцатое',
+        '18': 'восемнадцатое',
+        '20': 'двадцатое',
+        '23': 'двадцатьтретье',
+        '26': 'двадцатьшестое',
+        '30': 'тридцатое'
+        }
+
+
+
+def play_victory():
+    play = True
+    while play:
+        rounds = None
+        while rounds not in range(5, 11):
+            rounds = int(input('Количество вопросов [от 5 до 10]: '))
 
         correct_count = 0
         incorrect_count= 0
 
-        import random
         for i in range(rounds):
             name, date = random.choice(list(actors.items()))
             answer = input(f'Дата рождения {name}')
@@ -60,21 +60,16 @@ def play_victory():
         print('Процент правильных ответов: ', correct_count * 100 / rounds)
         print('Процент неправильных ответов: ', incorrect_count * 100 / rounds)
 
-    victory()
-    while True:
-        play_again = input('Хотите сыграть еще раз? [да/нет]: ')
+        play_again = None
+        while play_again not in ('да', 'нет'):
+            play_again = input('Хотите сыграть еще раз? [да/нет]: ')
 
-        if play_again == 'да':
-            victory()
-        else:
-            break
+        play = play_again == 'да'
 
 
 def bank_account():
-
-    ballance = 0
+    balance = 0
     purchase_history = []
-
 
     while True:
         print('1. пополнение счета')
@@ -85,15 +80,15 @@ def bank_account():
         choice = input('Выберите пункт меню')
         if choice == '1':
             refill = int(input('Введите сумму, которую хотите внести: '))
-            ballance += refill
-            print(f'На Вашем счету {ballance}')
+            balance += refill
+            print(f'На Вашем счету {balance}')
         elif choice == '2':
             purchase_cost = int(input('Введите цену покупки: '))
-            if purchase_cost > ballance:
+            if purchase_cost > balance:
                 print('Недостаточно средств')
             else:
                 purchase_name = input('Введите наименование покупки: ')
-                ballance -= purchase_cost
+                balance -= purchase_cost
                 purchase_history.append((purchase_name, purchase_cost))
         elif choice == '3':
             print(purchase_history)
